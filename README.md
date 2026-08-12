@@ -23,7 +23,7 @@ toggle it on/off and see how many items were cleaned this session.
 ## Install
 
 ```bash
-git clone <this-repo>
+git clone git@github.com:JephinJose/clipsanitizer.git
 cd clipsanitizer
 python3 -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
