@@ -1,11 +1,16 @@
 # clipsanitizer
 
-**what you copy shouldn't carry a passenger.**
+**the missing step between "AI generated this" and "I'm pasting this
+anywhere else."**
 
-Every clipboard event gets scanned and scrubbed of invisible characters
-before you paste it anywhere — zero-width spaces, bidi overrides, Unicode
-tag characters, stray control bytes. One small tray app, no accounts, no
-network calls, nothing leaves your machine.
+Text out of an LLM chat window isn't always just text. Some providers and
+sites embed invisible Unicode into generated output — zero-width
+characters and Unicode "tag" sequences used as a hidden watermark or
+fingerprint of that specific copy — and it's undetectable to the eye,
+survives a normal copy-paste, and stays in whatever you send, publish, or
+submit next. clipsanitizer sits quietly in your tray and strips it the
+instant you copy, from anything: an AI chat, a doc, a web page. No
+accounts, no network calls, nothing leaves your machine.
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![python](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
@@ -19,12 +24,17 @@ $ python3 -c "import pyperclip; print(repr(pyperclip.paste()))"
 
 ## why
 
-Text copied from a web page, PDF, or chat app can carry characters you
-never see: zero-width joiners used to fingerprint a specific copy, bidi
-control codes that reorder or hide substrings, Unicode "tag" characters
-that smuggle a hidden payload alongside visible text. clipsanitizer
-strips all of it the moment it hits your clipboard, so what you paste is
-exactly what you saw.
+Copying "AI generated" text and pasting it somewhere else — an email, a
+doc, a form, someone else's editor — is now one of the most common
+copy-paste flows there is, and it's the one most likely to carry
+something you didn't put there. Invisible zero-width characters and
+bidi-control codes can be used to fingerprint a specific generation or
+reorder/hide substrings; Unicode "tag" characters are a known covert
+channel for embedding a hidden payload right alongside the visible words.
+None of it renders, none of it shows up in a normal read-through — it
+just rides along. clipsanitizer strips all of it the moment it hits your
+clipboard, whether the text came from an AI tool, a web page, a PDF, or a
+chat app, so what you paste is exactly and only what you saw.
 
 ## what it removes
 
@@ -40,12 +50,14 @@ Normal punctuation, accents, emoji, tabs, and newlines are left alone.
 
 ## cleaning file metadata
 
-Text isn't the only thing that carries hidden identifiers — photos embed
-EXIF (camera, GPS, timestamps), PDFs embed an Info dict and XMP, and
-Office files embed author/company properties. Open the drop-zone window
-from the tray menu (**Clean Files...**) and drag a file onto it. It writes
-a scrubbed copy next to the original, named `photo.clean.jpg`,
-`report.clean.pdf`, etc. — nothing is overwritten in place.
+Text isn't the only thing that carries hidden identifiers. Generated
+images and exported documents carry their own metadata trail: EXIF
+(generation tool, timestamps, sometimes GPS if it round-tripped through
+another app), a PDF's Info dict and XMP, or an Office file's
+author/company properties. Open the drop-zone window from the tray menu
+(**Clean Files...**) and drag a file onto it. It writes a scrubbed copy
+next to the original, named `photo.clean.jpg`, `report.clean.pdf`, etc. —
+nothing is overwritten in place.
 
 | type | what's stripped |
 |---|---|
