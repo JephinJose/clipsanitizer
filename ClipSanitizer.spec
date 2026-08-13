@@ -1,5 +1,6 @@
-# PyInstaller spec: bundles main.py + dropzone.py + filemeta.py + sanitize.py
-# into one macOS .app that runs as a menu-bar-only agent (no Dock icon).
+# PyInstaller spec: bundles main.py + dropzone.py + about.py + popover.py +
+# filemeta.py + sanitize.py into one macOS .app that runs as a menu-bar-only
+# agent (no Dock icon).
 # Build with: pyinstaller ClipSanitizer.spec
 block_cipher = None
 
@@ -8,7 +9,7 @@ a = Analysis(
     pathex=[],
     binaries=[],
     datas=[],
-    hiddenimports=["dropzone", "filemeta", "sanitize"],
+    hiddenimports=["dropzone", "about", "popover", "filemeta", "sanitize"],
     hookspath=[],
     runtime_hooks=[],
     excludes=[],

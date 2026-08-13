@@ -10,7 +10,7 @@ call build_venv\Scripts\activate.bat
 pip install -q -r requirements.txt pyinstaller
 rmdir /s /q build 2>nul
 rmdir /s /q dist 2>nul
-pyinstaller --noconfirm --windowed --name ClipSanitizer --hidden-import dropzone --hidden-import filemeta --hidden-import sanitize main.py
+pyinstaller --noconfirm --windowed --name ClipSanitizer --hidden-import dropzone --hidden-import about --hidden-import popover --hidden-import filemeta --hidden-import sanitize main.py
 call build_venv\Scripts\deactivate.bat
 
 echo Built: dist\ClipSanitizer\ClipSanitizer.exe

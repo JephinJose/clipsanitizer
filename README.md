@@ -54,7 +54,7 @@ touched.
 |---|---|
 | Images (jpg, png, tiff, webp, bmp) | all EXIF/IPTC metadata |
 | PDF | the Info dictionary and XMP metadata |
-| Office (docx, xlsx, pptx) | author, company, and edit history properties |
+| Office (docx, xlsx, pptx) | author, company, tracked-change authors, and comment authors |
 | Anything else | copied through unchanged |
 
 If drag-and-drop doesn't work on your system, the window falls back to a
@@ -77,7 +77,8 @@ No Python or terminal needed.
 
 A small icon appears in your tray or menu bar. A solid dot means the app
 is active, a ring means it's paused. Click it to see how many items were
-cleaned this session, toggle it on or off, or open **Clean Files...**.
+cleaned this session, toggle it on or off, open **Clean Files...**, or
+check **About ClipSanitizer** for a quick reminder of what it does.
 
 ### Option B: run from source
 

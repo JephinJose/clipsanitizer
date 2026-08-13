@@ -14,15 +14,9 @@ from pathlib import Path
 from tkinter import filedialog
 
 from filemeta import clean_file
+from popover import BG, FG, FG_DIM, ACCENT, BORDER, Popover
 
 WIDTH, HEIGHT = 300, 210
-MARGIN_TOP = 30   # clears the macOS menu bar
-MARGIN_RIGHT = 20
-BG = "#1e1e1e"
-BORDER = "#3a3a3a"
-ACCENT = "#4da3ff"
-FG = "#e8e8e8"
-FG_DIM = "#9a9a9a"
 
 IDLE_TEXT_DND = "Drag a file here"
 IDLE_TEXT_CLICK = "Click to choose a file"
@@ -59,12 +53,11 @@ def parse_dropped_paths(data: str):
     return paths
 
 
-class DropZone:
+class DropZone(Popover):
     def __init__(self):
         self.root, self.dnd_files_const = try_load_dnd(tk.Tk)
-        self.root.overrideredirect(True)
-        self.root.attributes("-topmost", True)
-        self._position_top_right()
+        self.root.title("ClipSanitizer - Sanitize your files")
+        super().__init__()
         self.root.configure(bg=BORDER)
 
         outer = tk.Frame(self.root, bg=BORDER)
@@ -102,6 +95,8 @@ class DropZone:
 
         self.idle_text = idle_text
 
+        self._finish_setup(WIDTH, HEIGHT)
+
         if self.dnd_files_const:
             for widget in (self.dropzone, self.title_label, self.sub_label):
                 widget.drop_target_register(self.dnd_files_const)
@@ -109,23 +104,6 @@ class DropZone:
         else:
             for widget in (self.dropzone, self.title_label, self.sub_label):
                 widget.bind("<Button-1>", self._on_click_choose)
-
-        self.root.bind("<Escape>", lambda e: self.root.destroy())
-        self.root.bind("<FocusOut>", self._on_focus_out)
-        self.root.after(150, lambda: self.root.focus_force())
-
-    def _position_top_right(self):
-        screen_w = self.root.winfo_screenwidth()
-        x = screen_w - WIDTH - MARGIN_RIGHT
-        self.root.geometry(f"{WIDTH}x{HEIGHT}+{x}+{MARGIN_TOP}")
-
-    def _on_focus_out(self, event):
-        # Ignore spurious FocusOut while the window is still settling in.
-        self.root.after(200, self._close_if_unfocused)
-
-    def _close_if_unfocused(self):
-        if not self.root.focus_displayof():
-            self.root.destroy()
 
     def _on_click_choose(self, event):
         paths = filedialog.askopenfilenames(title="Choose files to clean")
@@ -148,11 +126,11 @@ class DropZone:
         self.root.after(3500, self._reset)
 
     def _reset(self):
-        self.title_label.config(text=self.idle_text)
-        self.sub_label.config(text=IDLE_SUBTEXT)
-
-    def run(self):
-        self.root.mainloop()
+        try:
+            self.title_label.config(text=self.idle_text)
+            self.sub_label.config(text=IDLE_SUBTEXT)
+        except tk.TclError:
+            pass  # window closed before the reset timer fired
 
 
 if __name__ == "__main__":
