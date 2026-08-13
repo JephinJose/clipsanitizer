@@ -45,7 +45,7 @@ app = BUNDLE(
     bundle_identifier="com.clipsanitizer.app",
     info_plist={
         "LSUIElement": True,  # menu-bar-only agent, no Dock icon/app switcher entry
-        "CFBundleShortVersionString": "1.0.0",
+        "CFBundleShortVersionString": "1.1.0",
         "NSHighResolutionCapable": True,
     },
 )
